@@ -1,0 +1,22 @@
+﻿@page "/branch/{branchName}"
+@model IndexModel
+@using WebApplication1
+@{
+    ViewData["Title"] = "Home page";
+    var rm = new RepoModel();
+    ViewData["Commit"] = rm.getCommit()[0];
+    ViewData["Branch"] = rm.GetBranches()[0];
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">@RouteData.Values["branchName"]</h1>
+    @for(var i = 0; i < rm.GetBranches().Count; i++)
+    {<p>Branch: @(rm.GetBranches()[i].FriendlyName)</p>}
+    
+    @for (var i = 0; i < rm.GetFiles(RouteData.Values["branchName"].ToString()).Count; i++)
+    {
+        <p>@rm.GetFiles(RouteData.Values["branchName"].ToString())[i]</p>
+    }
+</div>
+//wyswietl liste plikow w comicie liste branchy w repo i commitow w branchu juz w html
