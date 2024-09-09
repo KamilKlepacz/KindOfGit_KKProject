@@ -1,10 +1,21 @@
 ﻿@page
 @model IndexModel
+@using WebApplication1
 @{
     ViewData["Title"] = "Home page";
+    var rm = new RepoModel();
+    ViewData["Commit"] = rm.getCommit()[0];
+    ViewData["Branch"] = rm.GetBranches()[0];
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Some random text</p>
+    @for(var i = 0; i < rm.GetBranches().Count; i++)
+    {<p>Branch: @(rm.GetBranches()[i].FriendlyName)</p>}
+    @for (var i = 0; i < rm.getCommit().Count; i++)
+    {   
+        <p>Commit: @(rm.getCommit()[i].Id)</p>
+        <p>Message: @(rm.getMessages()[i])</p>
+    }
 </div>
+//wyswietl liste plikow w comicie liste branchy w repo i commitow w branchu juz w html
