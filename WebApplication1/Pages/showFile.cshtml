@@ -1,0 +1,19 @@
+@page "/{branchName}/{commitName}"
+@model IndexModel
+@using WebApplication1
+@{
+    ViewData["Title"] = "Home page";
+    var rm = new RepoModel();
+    ViewData["Commit"] = rm.getCommit()[0];
+    ViewData["Branch"] = rm.GetBranches()[0];
+    var files = rm.GetFiles(RouteData.Values["branchName"].ToString());
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">@RouteData.Values["commitName"]</h1>
+    @foreach (string file in files)
+    {
+        <a href="@RouteData.Values["commitName"]/@file">@file </a>
+    }
+       

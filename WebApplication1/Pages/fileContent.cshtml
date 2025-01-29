@@ -1,0 +1,28 @@
+﻿@page "/{branchName}/{commitName}/{fileName}"
+@model IndexModel
+@using WebApplication1
+@{
+    ViewData["Title"] = "Home page";
+    var rm = new RepoModel();
+    ViewData["Commit"] = rm.getCommit()[0];
+    ViewData["Branch"] = rm.GetBranches()[0];
+    var fileContent = rm.showFile((RouteData.Values["fileName"]).ToString());
+    var diff = rm.getDifference((RouteData.Values["fileName"]).ToString());
+}
+
+<div class="text-center">
+    <h1 class="display-4">@RouteData.Values["fileName"]</h1>
+    <p>@fileContent</p>
+    <div id="1234"> 
+    </div>
+    <script> 
+        const targetElement = document.getElementById('1234');
+        const configuration = { drawFileList: true, matching: 'lines' };
+
+        const diff2htmlUi = new Diff2HtmlUI(targetElement,`@Html.Raw(@diff)`, configuration);
+        // or
+        // const diff2htmlUi = new Diff2HtmlUI(targetElement, diffJson, configuration);
+
+        diff2htmlUi.draw();
+    </script>
+    

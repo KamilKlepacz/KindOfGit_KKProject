@@ -1,4 +1,4 @@
-﻿@page "/branch/{branchName}"
+﻿@page "/{branchName}"
 @model IndexModel
 @using WebApplication1
 @{
@@ -6,17 +6,19 @@
     var rm = new RepoModel();
     ViewData["Commit"] = rm.getCommit()[0];
     ViewData["Branch"] = rm.GetBranches()[0];
+    var branchname = RouteData.Values["branchName"].ToString();
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <h1 class="display-4">@RouteData.Values["branchName"]</h1>
-    @for(var i = 0; i < rm.GetBranches().Count; i++)
-    {<p>Branch: @(rm.GetBranches()[i].FriendlyName)</p>}
-    
-    @for (var i = 0; i < rm.GetFiles(RouteData.Values["branchName"].ToString()).Count; i++)
+    @rm.gitCheckoutOwn(branchname)
+    @for (var i = 0; i < rm.getCommit().Count; i++)
     {
-        <p>@rm.GetFiles(RouteData.Values["branchName"].ToString())[i]</p>
+        <p>Commit: @(rm.getCommit()[i].Id)</p>
+        <p>Message: @(rm.getMessages()[i])</p>
+        <a href="@RouteData.Values["branchName"]/@rm.getCommit()[i].Id)">@(rm.getCommit()[i].Id)</a>
     }
+    
 </div>
 //wyswietl liste plikow w comicie liste branchy w repo i commitow w branchu juz w html
